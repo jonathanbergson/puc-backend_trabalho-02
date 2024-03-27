@@ -22,7 +22,7 @@ public class SaveController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.K))
         {
-            LoadFromServer();
+            StartCoroutine(LoadFromServer());
         }
         if (Input.GetKeyDown(KeyCode.C))
         {
@@ -39,7 +39,8 @@ public class SaveController : MonoBehaviour
 
         var json = JsonUtility.ToJson(sceneData);
         File.WriteAllText(LocalPath + FileName, json);
-        Debug.Log(json);
+
+        Debug.Log("Scene saved");
     }
 
     private static void Load()
@@ -49,6 +50,8 @@ public class SaveController : MonoBehaviour
 
         Clear();
         InstantiateScene(sceneData);
+
+        Debug.Log("Scene loaded");
     }
 
     private static IEnumerator LoadFromServer()
@@ -63,6 +66,12 @@ public class SaveController : MonoBehaviour
 
             Clear();
             InstantiateScene(sceneData);
+
+            Debug.Log("Scene loaded from server");
+        }
+        else
+        {
+            Debug.Log(request.error);
         }
     }
 
@@ -131,5 +140,7 @@ public class SaveController : MonoBehaviour
         {
             Destroy(prefab.gameObject);
         }
+
+        Debug.Log("Scene cleared");
     }
 }
